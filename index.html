@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-commerce Dashboard</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .product-card {
+            margin-bottom: 20px;
+        }
+        body {
+            background-image: url("bgimg.gif");
+            background-size:contain;
+            display: auto;
+            max-width: 100%;
+            height: 10%;
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 class="my-4 text-center">E-commerce Dashboard</h1>
+    <div class="row" id="product-list">
+        <!-- Products will be displayed here dynamically -->
+    </div>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    // Sample JSON data for products
+    const products = [
+    {
+                "id": 1, 
+                "name": "Laptop", 
+                "price": 1500, 
+                "stock": 5, 
+                "image": "https://img.freepik.com/premium-psd/laptop-mock-up_1310-197.jpg"
+            },
+            {
+                "id": 2, 
+                "name": "Headphones", 
+                "price": 100, 
+                "stock": 10, 
+                "image": "https://img.freepik.com/free-photo/levitating-music-headphones-display_23-2149817601.jpg"
+            },
+            {
+                "id": 3, 
+                "name": "Keyboard", 
+                "price": 50, 
+                "stock": 20, 
+                "image": "https://img.freepik.com/free-photo/white-keyboard-plant_23-2148708805.jpg"
+            }
+        ];
+
+    // Cart Array
+    let cart = [];
+
+    // Function to display products
+    function displayProducts() {
+        const productList = document.getElementById('product-list');
+        productList.innerHTML = ''; // Clear existing products
+
+        products.forEach(product => {
+            const productCard = `
+                <div class="col-md-4">
+                    <div class="card product-card">
+                        <img src="${product.image}" class="card-img-top" alt="${product.name}">
+                        <div class="card-body">
+                            <h5 class="card-title">${product.name}</h5>
+                            <p class="card-text">$${product.price}</p>
+                            <p class="card-text">Stock: ${product.stock}</p>
+                            <button class="btn btn-primary" onclick="addToCart(${product.id})">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            productList.innerHTML += productCard;
+        });
+    }
+
+    // Function to add products to cart
+    function addToCart(productId) {
+        const product = products.find(p => p.id === productId);
+        if (product.stock > 0) {
+            cart.push(product);
+            product.stock--;
+            displayProducts(); // Update product list with updated stock
+            alert(`${product.name} added to cart successfully!`);
+        } else {
+            alert('Sorry, this item is out of stock.');
+        }
+    }
+
+    // Initialize the product list on page load
+    window.onload = displayProducts;
+</script>
+
+</body>
+</html>
